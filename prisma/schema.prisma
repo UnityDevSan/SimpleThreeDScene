@@ -21,4 +21,5 @@ model User {
   password  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  testProp  Boolean  @default(false)
 }
