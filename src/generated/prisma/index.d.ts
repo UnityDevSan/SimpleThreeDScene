@@ -887,6 +887,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     testProp: boolean | null
+    testProp2: boolean | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -897,6 +898,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     testProp: boolean | null
+    testProp2: boolean | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -907,6 +909,7 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     testProp: number
+    testProp2: number
     _all: number
   }
 
@@ -919,6 +922,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     testProp?: true
+    testProp2?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -929,6 +933,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     testProp?: true
+    testProp2?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -939,6 +944,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     testProp?: true
+    testProp2?: true
     _all?: true
   }
 
@@ -1022,6 +1028,7 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     testProp: boolean
+    testProp2: boolean
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -1049,6 +1056,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     testProp?: boolean
+    testProp2?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1059,6 +1067,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     testProp?: boolean
+    testProp2?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1069,6 +1078,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     testProp?: boolean
+    testProp2?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -1079,9 +1089,10 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     testProp?: boolean
+    testProp2?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "createdAt" | "updatedAt" | "testProp", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "createdAt" | "updatedAt" | "testProp" | "testProp2", ExtArgs["result"]["user"]>
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
@@ -1094,6 +1105,7 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       testProp: boolean
+      testProp2: boolean
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -1524,6 +1536,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly testProp: FieldRef<"User", 'Boolean'>
+    readonly testProp2: FieldRef<"User", 'Boolean'>
   }
     
 
@@ -1911,7 +1924,8 @@ export namespace Prisma {
     password: 'password',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    testProp: 'testProp'
+    testProp: 'testProp',
+    testProp2: 'testProp2'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -2009,6 +2023,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     testProp?: BoolFilter<"User"> | boolean
+    testProp2?: BoolFilter<"User"> | boolean
   }
 
   export type UserOrderByWithRelationInput = {
@@ -2019,6 +2034,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     testProp?: SortOrder
+    testProp2?: SortOrder
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -2032,6 +2048,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     testProp?: BoolFilter<"User"> | boolean
+    testProp2?: BoolFilter<"User"> | boolean
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -2042,6 +2059,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     testProp?: SortOrder
+    testProp2?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -2058,6 +2076,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     testProp?: BoolWithAggregatesFilter<"User"> | boolean
+    testProp2?: BoolWithAggregatesFilter<"User"> | boolean
   }
 
   export type UserCreateInput = {
@@ -2068,6 +2087,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testProp?: boolean
+    testProp2?: boolean
   }
 
   export type UserUncheckedCreateInput = {
@@ -2078,6 +2098,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testProp?: boolean
+    testProp2?: boolean
   }
 
   export type UserUpdateInput = {
@@ -2088,6 +2109,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testProp?: BoolFieldUpdateOperationsInput | boolean
+    testProp2?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserUncheckedUpdateInput = {
@@ -2098,6 +2120,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testProp?: BoolFieldUpdateOperationsInput | boolean
+    testProp2?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserCreateManyInput = {
@@ -2108,6 +2131,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testProp?: boolean
+    testProp2?: boolean
   }
 
   export type UserUpdateManyMutationInput = {
@@ -2118,6 +2142,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testProp?: BoolFieldUpdateOperationsInput | boolean
+    testProp2?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -2128,6 +2153,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testProp?: BoolFieldUpdateOperationsInput | boolean
+    testProp2?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -2189,6 +2215,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     testProp?: SortOrder
+    testProp2?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -2199,6 +2226,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     testProp?: SortOrder
+    testProp2?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -2209,6 +2237,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     testProp?: SortOrder
+    testProp2?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
