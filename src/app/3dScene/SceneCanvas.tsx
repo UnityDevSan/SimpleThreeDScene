@@ -13,27 +13,22 @@ import {
 import { useCharacterStore } from './Character/Hooks/useCharacterStore';
 import { Physics } from '@react-three/rapier';
 import { useRef } from 'react';
-import { Vector3 } from 'three';
+import { Group, Vector3 } from 'three';
 import { CUBE_POSITIONS } from '@/utils/constants';
+import Elevator from './Environment/Elevator';
 
 const keyboardMap = [
   { name: 'forward', keys: ['ArrowUp', 'w', 'W'] },
-  { name: 'backward', keys: ['ArrowDown', 's', 'S'] },
+  // { name: 'backward', keys: ['ArrowDown', 's', 'S'] }, //ist weired TODO: fix
   { name: 'left', keys: ['ArrowLeft', 'a', 'A'] },
   { name: 'right', keys: ['ArrowRight', 'd', 'D'] },
   { name: 'run', keys: ['Shift'] },
+  { name: 'jump', keys: [' ', 'Space', 'Spacebar'] },
 ];
-
-const FullSizeCanvas = styled(Canvas)`
-  width: 100vw !important;
-  height: 100vh !important;
-  display: block;
-`;
-
 export default function Scene() {
   const isMoving = useCharacterStore((s) => s.isMoving);
   const headTarget = useRef(new Vector3(0, 5, 0)); // z.B. 5 Einheiten über Boden (der pivot des Characters in der Fuß, wir wollen aber über den Kopf anvisieren)
-
+  const characterRef = useRef<Group>(null!);
   return (
     <KeyboardControls map={keyboardMap}>
       {/*
@@ -56,11 +51,19 @@ export default function Scene() {
             enabled={!isMoving}
           />
           <Stats className="r3f-stats" />
-          <Character />
+          <Character characterRef={characterRef} />
           <GroundPlane />
           <AxesHelper size={5} />
           <GridHelper size={100} divisions={100} />
           <CubeInstances positions={CUBE_POSITIONS} />
+          <Elevator
+            position={[0, 0.5, 5]}
+            size={[2, 0.2, 2]}
+            height={5}
+            speed={1}
+            color="#ff0"
+            characterRef={characterRef}
+          />
         </Physics>
       </Canvas>
     </KeyboardControls>

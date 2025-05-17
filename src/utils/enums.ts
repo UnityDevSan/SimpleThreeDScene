@@ -1,7 +1,7 @@
 export enum CHARACTER_STATE {
-  IDLE = 'IDLE',
-  WALK = 'WALK',
-  RUN = 'RUN',
-  JUMP = 'JUMP',
-  FALL = 'FALL',
+  IDLE = 'Idle',
+  WALK = 'Walk',
+  RUN = 'Run',
+  JUMP = 'TPose',
+  FALL = 'TPose',
 }

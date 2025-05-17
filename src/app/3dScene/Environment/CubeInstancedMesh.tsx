@@ -15,7 +15,7 @@ const CubeInstancedMesh = forwardRef<InstancedMesh, CubeInstancedMeshProps>(
       castShadow
       receiveShadow
     >
-      <boxGeometry args={[size, size, size]} />
+      <boxGeometry args={[size, size*2, size]} />
       <meshStandardMaterial color={color} />
     </instancedMesh>
   )

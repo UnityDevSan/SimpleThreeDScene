@@ -5,23 +5,61 @@ import * as THREE from 'three';
 import { useCharacterStore } from './Hooks/useCharacterStore';
 import { useCharacterAnimation } from '../Animations/hooks/useCharacterAnimation';
 import { willCollide } from '@/utils/helperFunctions';
-import { MOVE_SPEED, RUN_SPEED } from '@/utils/constants';
+import {
+  GRAVITY,
+  GROUND_Y,
+  JUMP_STRENGTH,
+  MOVE_SPEED,
+  RUN_SPEED,
+} from '@/utils/constants';
+
+type CharacterProps = {
+  characterRef: React.RefObject<THREE.Group>;
+};
 
 //TODO: Kollisionen über Animation based Character ist umständlich.. Character auf Physics umstellen
-export default function Character() {
-  const group = useRef<THREE.Group>(null!);
+export default function Character({ characterRef }: CharacterProps) {
   const setIsMoving = useCharacterStore((s) => s.setIsMoving);
+  const velocityY = useRef(0);
+  const onGround = characterRef.current
+    ? characterRef.current.position.y <= GROUND_Y + 0.01
+    : true;
 
+  const isJumping = useRef(false);
   const { scene, animations } = useGLTF('/Soldier.glb');
-  const { actions } = useAnimations(animations, group);
-  const animation = useCharacterAnimation(group, actions, setIsMoving);
+  const { actions } = useAnimations(animations, characterRef);
+  const animation = useCharacterAnimation(
+    characterRef,
+    actions,
+    setIsMoving,
+    onGround, // boolean, z.B. group.current.position.y <= GROUND_Y + 0.01
+    velocityY.current // aktuelle Y-Geschwindigkeit
+  );
   const [, getKeys] = useKeyboardControls();
 
+  // Aktuellen Animationsstatus loggen
   useFrame((state, delta) => {
-    if (!group.current || !actions) return;
+    console.log(animation.currentAction);
+    if (!characterRef.current || !actions) return;
 
     const keys = getKeys();
-    animation.update(keys, delta);
+
+    // SPRINGEN & SCHWERKRAFT
+    const onGround = characterRef.current.position.y <= GROUND_Y + 0.01;
+    animation.update(keys, delta, onGround, velocityY.current);
+    if (keys.jump && onGround && !isJumping.current) {
+      velocityY.current = JUMP_STRENGTH;
+      isJumping.current = true;
+    }
+    if (!onGround || velocityY.current > 0) {
+      velocityY.current += GRAVITY * delta;
+      characterRef.current.position.y += velocityY.current * delta;
+      if (characterRef.current.position.y <= GROUND_Y) {
+        characterRef.current.position.y = GROUND_Y;
+        velocityY.current = 0;
+        isJumping.current = false;
+      }
+    }
 
     // MOVEMENT DIRECTION RELATIVE TO CAMERA
     const moveDir = new THREE.Vector3();
@@ -42,11 +80,12 @@ export default function Character() {
 
     const moveSpeed = keys.run ? RUN_SPEED : MOVE_SPEED;
     const moveVec = moveDir.clone().multiplyScalar(moveSpeed * delta);
-    const nextPos = group.current.position.clone().add(moveVec);
+    const nextPos = characterRef.current.position.clone().add(moveVec);
 
-    // Nur bewegen, wenn keine Kollision mit Cubes
+    // Nur bewegen, wenn keine Kollision mit Cubes (Y bleibt erhalten)
+    nextPos.y = characterRef.current.position.y;
     if (!willCollide(nextPos)) {
-      group.current.position.copy(nextPos);
+      characterRef.current.position.copy(nextPos);
     }
 
     // ROTATE CHARACTER TO MOVE DIRECTION
@@ -58,16 +97,16 @@ export default function Character() {
           new THREE.Vector3(0, 1, 0)
         )
       );
-      group.current.quaternion.slerp(targetQuat, 0.2);
+      characterRef.current.quaternion.slerp(targetQuat, 0.2);
     }
 
-    const charPos = group.current.position.clone();
+    const charPos = characterRef.current.position.clone();
     const cam = state.camera;
     const directionPressed =
       keys.forward || keys.backward || keys.left || keys.right;
     if (directionPressed) {
       const camOffset = new THREE.Vector3(0, 5, 10).applyQuaternion(
-        group.current.quaternion
+        characterRef.current.quaternion
       );
       const desiredPos = charPos.clone().add(camOffset);
       cam.position.lerp(desiredPos, 0.1);
@@ -76,7 +115,6 @@ export default function Character() {
   });
 
   return (
-    <primitive position={[0, 0, 0]} ref={group} object={scene} castShadow />
+    <primitive position={[0, 0, 0]} ref={characterRef} object={scene} castShadow />
   );
 }
-
