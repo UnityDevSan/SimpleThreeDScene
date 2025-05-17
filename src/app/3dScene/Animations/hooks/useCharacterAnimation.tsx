@@ -1,3 +1,4 @@
+import { CHARACTER_STATE } from '@/utils/enums';
 import { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 
@@ -7,7 +8,7 @@ export function useCharacterAnimation(
   setIsMoving: (b: boolean) => void
 ) {
   const mixer = useRef<THREE.AnimationMixer | null>(null);
-  const currentAction = useRef<string>('Idle');
+  const currentAction = useRef<string>(CHARACTER_STATE.IDLE);
   const wasMoving = useRef(false);
 
   useEffect(() => {
@@ -21,8 +22,8 @@ export function useCharacterAnimation(
     const directionPressed = keys.forward || keys.backward || keys.left || keys.right;
     const isRunning = keys.run;
 
-    let nextAction = 'Idle';
-    if (directionPressed) nextAction = isRunning ? 'Run' : 'Walk';
+    let nextAction = CHARACTER_STATE.IDLE;
+    if (directionPressed) nextAction = isRunning ? CHARACTER_STATE.RUN : CHARACTER_STATE.WALK;
     if (wasMoving.current !== directionPressed) {
       setIsMoving(directionPressed);
       wasMoving.current = directionPressed;

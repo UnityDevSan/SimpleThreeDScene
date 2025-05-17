@@ -3,9 +3,11 @@ import { useFrame } from '@react-three/fiber';
 import { useRef } from 'react';
 import * as THREE from 'three';
 import { useCharacterStore } from './Hooks/useCharacterStore';
-import { CapsuleCollider, RigidBody } from '@react-three/rapier';
 import { useCharacterAnimation } from '../Animations/hooks/useCharacterAnimation';
+import { willCollide } from '@/utils/helperFunctions';
+import { MOVE_SPEED, RUN_SPEED } from '@/utils/constants';
 
+//TODO: Kollisionen über Animation based Character ist umständlich.. Character auf Physics umstellen
 export default function Character() {
   const group = useRef<THREE.Group>(null!);
   const setIsMoving = useCharacterStore((s) => s.setIsMoving);
@@ -38,10 +40,14 @@ export default function Character() {
 
     moveDir.normalize();
 
-    const moveSpeed = keys.run ? 5 : 2;
-    group.current.position.add(
-      moveDir.clone().multiplyScalar(moveSpeed * delta)
-    );
+    const moveSpeed = keys.run ? RUN_SPEED : MOVE_SPEED;
+    const moveVec = moveDir.clone().multiplyScalar(moveSpeed * delta);
+    const nextPos = group.current.position.clone().add(moveVec);
+
+    // Nur bewegen, wenn keine Kollision mit Cubes
+    if (!willCollide(nextPos)) {
+      group.current.position.copy(nextPos);
+    }
 
     // ROTATE CHARACTER TO MOVE DIRECTION
     if (moveDir.lengthSq() > 0) {
@@ -70,21 +76,7 @@ export default function Character() {
   });
 
   return (
-    <RigidBody
-      colliders={false}
-      position={[0, 1.6, 0]}
-      mass={1}
-      enabledRotations={[false, true, false]}
-    >
-      {/* Debug capsule */}
-
-      <primitive position={[0, 0, 0]} ref={group} object={scene} castShadow>
-        <mesh position={[0, 1, 0]}>
-          <capsuleGeometry args={[0.3, 1.5]} />
-          <meshBasicMaterial color="red" transparent opacity={0.4} wireframe />
-        </mesh>
-        <CapsuleCollider args={[0.3, 1.5]} position={[0, 1.8, 0]} />
-      </primitive>
-    </RigidBody>
+    <primitive position={[0, 0, 0]} ref={group} object={scene} castShadow />
   );
 }
+

@@ -14,6 +14,7 @@ import { useCharacterStore } from './Character/Hooks/useCharacterStore';
 import { Physics } from '@react-three/rapier';
 import { useRef } from 'react';
 import { Vector3 } from 'three';
+import { CUBE_POSITIONS } from '@/utils/constants';
 
 const keyboardMap = [
   { name: 'forward', keys: ['ArrowUp', 'w', 'W'] },
@@ -59,14 +60,7 @@ export default function Scene() {
           <GroundPlane />
           <AxesHelper size={5} />
           <GridHelper size={100} divisions={100} />
-          <CubeInstances
-            positions={[
-              [2, 0.5, 2],
-              [-3, 0.5, 1],
-              [0, 0.5, -4],
-              [5, 0.5, -2],
-            ]}
-          />
+          <CubeInstances positions={CUBE_POSITIONS} />
         </Physics>
       </Canvas>
     </KeyboardControls>
