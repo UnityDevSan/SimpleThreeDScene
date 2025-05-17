@@ -120,3 +120,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+.r3f-stats {
+  top: unset !important;
+  bottom: 16px !important;
+  left: unset !important;
+  right: 16px !important;
+  z-index: 10 !important;
+}

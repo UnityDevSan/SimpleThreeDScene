@@ -21,4 +21,5 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt()
   testProp  Boolean  @default(false)
+  testProp2 String?  @default("test")
 }
