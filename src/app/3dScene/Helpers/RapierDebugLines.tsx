@@ -7,6 +7,7 @@ import { useControls } from 'leva';
 export function RapierDebugLines() {
   const { world } = useRapier();
   const geometryRef = useRef<BufferGeometry | null>(null);
+  // Leva UI control to toggle the visibility of mesh colliders in the debug view
   const { showMeshCollider } = useControls({
     showMeshCollider: {
       value: true,

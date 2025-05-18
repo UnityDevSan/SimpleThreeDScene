@@ -10,6 +10,25 @@ type CubeInstancesProps = {
   color?: string;
 };
 
+/**
+ * Renders multiple cube instances at specified positions using instanced rendering for performance.
+ * Each cube is represented visually and has a corresponding physics collider.
+ *
+ * @param positions - Array of 3D positions for each cube instance.
+ * @param size - Optional size of each cube (default is 1).
+ * @param color - Optional color of the cubes (default is '#4cf').
+ */
+/**
+ * Updates the transformation matrices of each cube instance on every animation frame.
+ *
+ * The `useFrame` hook iterates over the `positions` array and sets the position of a shared dummy `Object3D`
+ * for each instance. It then updates the instance's transformation matrix in the instanced mesh using `setMatrixAt`.
+ * After all matrices are updated, it flags the instance matrix as needing an update so that the changes
+ * are rendered in the next frame.
+ *
+ * Dies sorgt dafür, dass alle Instanzen der Würfel ihre Positionen korrekt im 3D-Raum erhalten und bei jeder
+ * Animation entsprechend aktualisiert werden.
+ */
 export default function CubeInstances({
   positions,
   size = 1,
