@@ -31,7 +31,7 @@ const Subtitle = styled.p`
   `}
 `;
 
-export default function Home() {
+export default function HomePage() {
   return (
     <Container>
       <Title>Willkommen zu deinem Projekt!</Title>

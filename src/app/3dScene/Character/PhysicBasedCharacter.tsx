@@ -5,11 +5,14 @@ import {
   RigidBody,
   RapierRigidBody,
 } from '@react-three/rapier';
-import { useRef, useEffect, useState, MutableRefObject } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { MathUtils, Vector3, Group } from 'three';
 import { Character } from './Character';
 import { MOVE_SPEED, ROTATION_SPEED, RUN_SPEED } from '@/utils/constants';
 import { CHARACTER_STATE } from '@/utils/enums';
+import { useControls } from 'leva';
+
+const JUMP_STRENGTH = 6; // Passe ggf. an
 
 const normalizeAngle = (angle: number) => {
   while (angle > Math.PI) angle -= 2 * Math.PI;
@@ -42,12 +45,14 @@ export const PhysicBasedCharacter = () => {
   const cameraWorldPosition = useRef<Vector3>(new Vector3());
   const cameraLookAtWorldPosition = useRef<Vector3>(new Vector3());
   const cameraLookAt = useRef<Vector3>(new Vector3());
-
+  
+  const { enableMouseMovement } = useControls({
+    enableMouseMovement: { value: false, label: 'Mouse Movement aktiv' },
+  });
   // State
   const [animation, setAnimation] = useState<CHARACTER_STATE>(
     CHARACTER_STATE.IDLE
   );
-  console.log(animation);
   // Movement/Rotation
   const characterRotationTarget = useRef(0);
   const rotationTarget = useRef(0);
@@ -57,6 +62,8 @@ export const PhysicBasedCharacter = () => {
 
   // Mouse/Touch
   const isClicking = useRef(false);
+  // Sprung-Status
+  const isJumping = useRef(false);
 
   useEffect(() => {
     const onMouseDown = () => {
@@ -92,7 +99,7 @@ export const PhysicBasedCharacter = () => {
       let speed = get().run ? RUN_SPEED : MOVE_SPEED;
 
       // Mouse/touch input
-      if (isClicking.current) {
+      if (enableMouseMovement && isClicking.current) {
         if (Math.abs(mouse.x) > 0.1) movement.x = -mouse.x;
         movement.z = mouse.y + 0.4;
         if (Math.abs(movement.x) > 0.5 || Math.abs(movement.z) > 0.5) {
@@ -130,7 +137,18 @@ export const PhysicBasedCharacter = () => {
         );
       }
 
-      rb.current.setLinvel(vel, true);
+      // --- SPRINGEN ---
+      // --- SPRINGEN ---
+      const onGround = Math.abs(vel.y) < 0.08;
+      let nextVel = { ...vel };
+
+      if (get().jump && onGround && !isJumping.current) {
+        nextVel.y = JUMP_STRENGTH;
+        isJumping.current = true;
+      }
+      if (onGround) isJumping.current = false;
+
+      rb.current.setLinvel(nextVel, true);
     }
 
     // CAMERA
@@ -154,7 +172,7 @@ export const PhysicBasedCharacter = () => {
     }
   });
   return (
-    <RigidBody colliders={false} lockRotations ref={rb}>
+    <RigidBody colliders={false} lockRotations ref={rb} position={[0, 2, 0]}>
       <group ref={container}>
         <group ref={cameraTarget} position-z={1.5} />
         <group ref={cameraPosition} position-y={2} position-z={-4} />

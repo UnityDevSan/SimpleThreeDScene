@@ -2,11 +2,17 @@ import { useMemo, useRef } from 'react';
 import { useRapier } from '@react-three/rapier';
 import { useFrame } from '@react-three/fiber';
 import { BufferAttribute, BufferGeometry } from 'three';
+import { useControls } from 'leva';
 
 export function RapierDebugLines() {
   const { world } = useRapier();
   const geometryRef = useRef<BufferGeometry | null>(null);
-
+  const { showMeshCollider } = useControls({
+    showMeshCollider: {
+      value: true,
+      label: 'show Mesh Collider',
+    },
+  });
   useFrame(() => {
     if (world && world.debugRender) {
       const { vertices, colors } = world.debugRender();
@@ -24,10 +30,12 @@ export function RapierDebugLines() {
     }
   });
 
-  return (
+  return showMeshCollider ? (
     <lineSegments>
       <bufferGeometry ref={geometryRef} />
       <lineBasicMaterial vertexColors />
     </lineSegments>
+  ) : (
+    ''
   );
 }

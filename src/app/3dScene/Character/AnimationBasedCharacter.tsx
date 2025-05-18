@@ -14,12 +14,12 @@ import {
 } from '@/utils/constants';
 
 type CharacterProps = {
-  characterRef: React.RefObject<THREE.Group>;
 };
 
 //TODO: Kollisionen über Animation based Character ist umständlich.. Character auf Physics umstellen
-export default function AnimationBasedCharacter({ characterRef }: CharacterProps) {
+export default function AnimationBasedCharacter({  }: CharacterProps) {
   const setIsMoving = useCharacterStore((s) => s.setIsMoving);
+  const characterRef = useRef<THREE.Group>(null!);
   const velocityY = useRef(0);
   const onGround = characterRef.current
     ? characterRef.current.position.y <= GROUND_Y + 0.01
