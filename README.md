@@ -9,15 +9,17 @@ Ein interaktives 3D-Scene-Projekt auf Basis von [Next.js](https://nextjs.org), [
 
 - Falls sich das Routing zu langsam anfühlt, liegt das vermutlich am Runtime-Compiling von Next.js. Dann bitte den Build nutzen.
 
+Kollisions Trigger für Animation Based Character wurde noch nicht programmiert. Bitte den PhysicBased Character verwenden.
+
 ---
 
 ## Features
 
 - **3D-Rendering:** Mit React Three Fiber und three.js für performante, deklarative 3D-Szenen.
 - **Physik:** Integration von [@react-three/rapier](https://github.com/pmndrs/react-three-rapier) für Physik-basierte Interaktionen.
-- **Animierte Charaktere:** GLTF-Modelle mit Animationen, steuerbar per Tastatur und Maus.
+- **Animierte Charaktere:** GLTF-Modelle mit Animationen, steuerbar per Tastatur, Maus und Touch.
 - **State Management:** Globales State-Handling (z.B. Character-Store) mit Zustand.
-- **Internationalisierung:** Mehrsprachigkeit via next-intl, Locale-Switch im UI.
+- **Internationalisierung:** Mehrsprachigkeit via next-intl, Locale-Switch im UI. (wip)
 - **Dark Mode:** Umschaltbar per Button.
 - **Responsive UI:** Eigener Hook für Mobile-Detection (`useIsMobile`) (wip).
 - **Styled Components:** Für modulare, dynamische Styles mit SSR-Unterstützung.

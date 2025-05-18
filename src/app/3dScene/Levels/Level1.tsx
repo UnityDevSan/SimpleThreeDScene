@@ -30,17 +30,17 @@ export default function Level1() {
       <CubeInstances positions={CUBE_POSITIONS} />
       {/* Two elevators with different positions, sizes, heights, speeds, and colors */}
       <Elevator
-      position={[0, 0.1, 5]}
+      position={[0, 0, 5]}
       size={[2, 0.2, 2]}
       height={5}
       speed={1}
       color="#ff0"
       />
       <Elevator
-      position={[5, 0.1, 0]}
+      position={[5, 0, 0]}
       size={[3, 0.2, 3]}
-      height={8}
-      speed={2}
+      height={4}
+      speed={0.8}
       color="#0ff"
       />
       {/* Spawns balls in the scene */}

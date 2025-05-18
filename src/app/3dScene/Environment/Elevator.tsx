@@ -93,7 +93,7 @@ export default function Elevator({
       colliders={false}
       position={position}
     >
-      <mesh position={[0, 0, 0]} castShadow receiveShadow>
+      <mesh position={[0, -0.05, 0]} castShadow receiveShadow>
         <boxGeometry args={size} />
         <meshStandardMaterial color={color} />
       </mesh>

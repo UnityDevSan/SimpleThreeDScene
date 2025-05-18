@@ -2,7 +2,7 @@ import { useGLTF, useAnimations, useKeyboardControls } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { useRef } from 'react';
 import * as THREE from 'three';
-import { useCharacterStore } from '../AnimationBasedCharacter/Hooks/useCharacterStore';
+import { useCharacterStore } from './Hooks/useCharacterStore';
 import { willCollide } from '@/utils/helperFunctions';
 import {
   GRAVITY,
@@ -11,7 +11,7 @@ import {
   MOVE_SPEED,
   RUN_SPEED,
 } from '@/utils/constants';
-import { useCharacterAnimation } from '../AnimationBasedCharacter/Animations/hooks/useCharacterAnimation';
+import { useCharacterAnimation } from './Animations/hooks/useCharacterAnimation';
 
 type CharacterProps = {
 };

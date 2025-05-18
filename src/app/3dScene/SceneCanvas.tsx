@@ -1,7 +1,7 @@
 // Scene/Scene.tsx
 import { OrbitControls, KeyboardControls, Stats } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
-import AnimationBasedCharacter from './Character/PhysicBasedCharacter/AnimationBasedCharacter';
+import AnimationBasedCharacter from './Character/AnimationBasedCharacter/AnimationBasedCharacter';
 import DefaultLights from './Lights/DefaultLights';
 
 import { useCharacterStore } from './Character/AnimationBasedCharacter/Hooks/useCharacterStore';

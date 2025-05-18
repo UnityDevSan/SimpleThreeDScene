@@ -12,7 +12,6 @@ type CharacterProps = {
  *
  * Props:
  * - animation: Name der Animation, die abgespielt werden soll (Default: "Idle")
- * - ...props: Weitere Props werden an das primitive Objekt weitergereicht
  */
 export const CharacterRenderer = forwardRef<any, CharacterProps>(
   ({ animation = 'Idle', ...props }, ref) => {
