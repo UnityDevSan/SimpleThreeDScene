@@ -3,6 +3,13 @@
 Ein interaktives 3D-Scene-Projekt auf Basis von [Next.js](https://nextjs.org), [React Three Fiber](https://docs.pmnd.rs/react-three-fiber), [three.js](https://threejs.org/), [next-intl](https://next-intl.dev/), [styled-components](https://styled-components.com/) und [Zustand](https://zustand-demo.pmnd.rs/).
 
 ---
+## Anmerkungen
+
+- Die „Fall“- und „Sprung“-Animationen werden bereits unterstützt, allerdings enthält das importierte Modell aktuell nur die Animationen „Run“, „Walk“, "TPose" und „Idle“.
+
+- Falls sich das Routing zu langsam anfühlt, liegt das vermutlich am Runtime-Compiling von Next.js. Dann bitte den Build nutzen.
+
+---
 
 ## Features
 
@@ -110,6 +117,20 @@ Bitte stelle sicher, dass dein Editor ESLint und Prettier aktiviert hat, damit a
  ```bash
   pnpm lint 
   ```
+---
+### 6. **Builden**
+
+Mit Next.js kannst du das Projekt für die Produktion bauen und testen:
+
+```bash
+pnpm build
+pnpm start
+```
+
+**Hinweis:** 
+Im Entwicklungsmodus (`pnpm dev`) kompiliert Next.js standardmäßig nur die Dateien, die gerade benötigt werden.  
+Dadurch kann sich die App manchmal etwas "laggy" oder langsam anfühlen, besonders bei größeren Projekten.  
+Ein echter Produktions-Build (`pnpm build` + `pnpm start`) ist deutlich performanter und zeigt die tatsächliche Geschwindigkeit der Anwendung.
 ---
 
 ## Warum Next.js und nicht Vite?

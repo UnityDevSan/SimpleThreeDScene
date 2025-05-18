@@ -1,5 +1,6 @@
 import { useGLTF, useAnimations } from '@react-three/drei';
 import { useEffect, forwardRef } from 'react';
+import { Mesh } from 'three';
 
 type CharacterProps = {
   animation?: string;
@@ -8,17 +9,24 @@ type CharacterProps = {
 
 /**
  * Character-Komponente für ein animiertes 3D-Modell.
- * 
+ *
  * Props:
  * - animation: Name der Animation, die abgespielt werden soll (Default: "Idle")
  * - ...props: Weitere Props werden an das primitive Objekt weitergereicht
  */
 export const CharacterRenderer = forwardRef<any, CharacterProps>(
-  ({ animation = "Idle", ...props }, ref) => {
+  ({ animation = 'Idle', ...props }, ref) => {
     // Lade das 3D-Modell und die Animationen
     const { scene, animations } = useGLTF('/models/Soldier.glb');
     const { actions } = useAnimations(animations, scene);
-
+    // Setze castShadow für alle Meshes im Model
+    useEffect(() => {
+      scene.traverse((obj) => {
+        if ((obj as Mesh).isMesh) {
+          (obj as Mesh).castShadow = true;
+        }
+      });
+    }, [scene]);
     // Spiele die gewünschte Animation ab, wenn sie sich ändert
     useEffect(() => {
       if (!actions || !animation || !actions[animation]) return;
