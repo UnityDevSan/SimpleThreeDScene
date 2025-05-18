@@ -1,7 +1,7 @@
 // Scene/Scene.tsx
 import { OrbitControls, KeyboardControls, Stats } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
-import Character from './Character/Character';
+import AnimationBasedCharacter from './Character/AnimationBasedCharacter';
 import { styled } from 'styled-components';
 import DefaultLights from './Lights/DefaultLights';
 import {
@@ -13,13 +13,16 @@ import {
 import { useCharacterStore } from './Character/Hooks/useCharacterStore';
 import { Physics } from '@react-three/rapier';
 import { useRef } from 'react';
-import { Group, Vector3 } from 'three';
+import { Group, Object3D, Vector3 } from 'three';
 import { CUBE_POSITIONS } from '@/utils/constants';
 import Elevator from './Environment/Elevator';
+import { RapierDebugLines } from './Helpers/RapierDebugLines';
+import { useControls } from 'leva';
+import { PhysicBasedCharacter } from './Character/PhysicBasedCharacter';
 
 const keyboardMap = [
   { name: 'forward', keys: ['ArrowUp', 'w', 'W'] },
-  // { name: 'backward', keys: ['ArrowDown', 's', 'S'] }, //ist weired TODO: fix
+  { name: 'backward', keys: ['ArrowDown', 's', 'S'] },
   { name: 'left', keys: ['ArrowLeft', 'a', 'A'] },
   { name: 'right', keys: ['ArrowRight', 'd', 'D'] },
   { name: 'run', keys: ['Shift'] },
@@ -29,6 +32,13 @@ export default function Scene() {
   const isMoving = useCharacterStore((s) => s.isMoving);
   const headTarget = useRef(new Vector3(0, 5, 0)); // z.B. 5 Einheiten über Boden (der pivot des Characters in der Fuß, wir wollen aber über den Kopf anvisieren)
   const characterRef = useRef<Group>(null!);
+  const playerVisualRef = useRef<Object3D>(null);
+  const { useAnimationBasedCharacter } = useControls({
+    useAnimationBasedCharacter: {
+      value: false,
+      label: 'Animation-based Character',
+    },
+  });
   return (
     <KeyboardControls map={keyboardMap}>
       {/*
@@ -43,15 +53,21 @@ export default function Scene() {
       >
         <Physics>
           <DefaultLights />
-          <OrbitControls
-            // target={headTarget.current} //führt zu komischem wackeln, da follow cam nicht auf kopf fokusiert TODO: fix
-            enablePan={true}
-            enableZoom={true}
-            maxPolarAngle={Math.PI / 2.2}
-            enabled={!isMoving}
-          />
           <Stats className="r3f-stats" />
-          <Character characterRef={characterRef} />
+          {useAnimationBasedCharacter ? (
+            <>
+              <AnimationBasedCharacter characterRef={characterRef} />
+              <OrbitControls
+                // target={headTarget.current} //führt zu komischem wackeln, da follow cam nicht auf kopf fokusiert TODO: fix
+                enablePan={true}
+                enableZoom={true}
+                maxPolarAngle={Math.PI / 2.2}
+                enabled={!isMoving}
+              />
+            </>
+          ) : (
+            <PhysicBasedCharacter />
+          )}
           <GroundPlane />
           <AxesHelper size={5} />
           <GridHelper size={100} divisions={100} />
@@ -64,6 +80,7 @@ export default function Scene() {
             color="#ff0"
             characterRef={characterRef}
           />
+          <RapierDebugLines />
         </Physics>
       </Canvas>
     </KeyboardControls>
