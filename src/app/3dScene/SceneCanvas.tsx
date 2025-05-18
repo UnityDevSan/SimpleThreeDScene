@@ -1,16 +1,16 @@
 // Scene/Scene.tsx
 import { OrbitControls, KeyboardControls, Stats } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
-import AnimationBasedCharacter from './Character/AnimationBasedCharacter';
+import AnimationBasedCharacter from './Character/PhysicBasedCharacter/AnimationBasedCharacter';
 import DefaultLights from './Lights/DefaultLights';
 
-import { useCharacterStore } from './Character/Hooks/useCharacterStore';
+import { useCharacterStore } from './Character/AnimationBasedCharacter/Hooks/useCharacterStore';
 import { Physics } from '@react-three/rapier';
 import { useRef } from 'react';
 import { Object3D, Vector3 } from 'three';
 import { RapierDebugLines } from './Helpers/RapierDebugLines';
 import { useControls } from 'leva';
-import { PhysicBasedCharacter } from './Character/PhysicBasedCharacter';
+import { PhysicBasedCharacter } from './Character/PhysicBasedCharacter/PhysicBasedCharacter';
 import Level1 from './Levels/Level1';
 
 const keyboardMap = [

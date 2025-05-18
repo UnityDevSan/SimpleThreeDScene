@@ -1,3 +1,8 @@
+/**
+ * React-Komponente, die einen THREE.AxesHelper zur Visualisierung der Achsen im 3D-Szenenraum hinzufügt.
+ * Die Größe und Position des Helpers können über Props angepasst werden.
+ * Wird beim Mounten zur Szene hinzugefügt und beim Unmounten entfernt.
+ */
 import { useThree } from '@react-three/fiber';
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';

@@ -17,6 +17,7 @@ const SpawnButton = styled.button`
     background 0.2s,
     transform 0.1s;
 `;
+
 function randomColor() {
   return `hsl(${Math.floor(Math.random() * 360)}, 80%, 60%)`;
 }
@@ -28,14 +29,14 @@ function randomSize() {
 function randomPosition() {
   const x = Math.random() * 2 - 1; // -1 bis 1 um den Trigger
   const y = 2 + Math.random() * 2; // 2 bis 4 (über dem Trigger)
-  const z = 10 + (Math.random() * 2 - 1); // -1 bis 1 um z=5
+  const z = 10 + (Math.random() * 2 - 1); // -1 bis 1 um z=10
   return [x, y, z];
 }
 
+type Ball = { color: string; size: number; position: [number, number, number] };
+
 export default function BallSpawner() {
-  const [balls, setBalls] = useState<
-    { color: string; size: number; position: [number, number, number] }[]
-  >([]);
+  const [balls, setBalls] = useState<Ball[]>([]);
   const triggerActive = useRef(false);
 
   const spawnBall = () => {
@@ -49,7 +50,7 @@ export default function BallSpawner() {
     ]);
   };
 
-  // Trigger-Handler
+  //#region Trigger-Handler
   const handleTriggerEnter = () => {
     if (!triggerActive.current) {
       triggerActive.current = true;
@@ -59,6 +60,8 @@ export default function BallSpawner() {
   const handleTriggerExit = () => {
     triggerActive.current = false;
   };
+  //#endregion
+  //#region return
   return (
     <>
       {/* Button knapp über dem Trigger */}
@@ -80,7 +83,7 @@ export default function BallSpawner() {
           position={[0, 1, 0]}
           sensor
           onIntersectionEnter={handleTriggerEnter}
-          onIntersectionExit={handleTriggerExit} 
+          onIntersectionExit={handleTriggerExit}
         />
       </RigidBody>
 

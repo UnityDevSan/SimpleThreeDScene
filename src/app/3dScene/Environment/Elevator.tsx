@@ -15,7 +15,7 @@ type ElevatorProps = {
 };
 
 export default function Elevator({
-  position = [0, 0.0, 0],
+  position = [0, 0, 0],
   size = [2, 0.2, 2],
   height = 5,
   speed = 1,
@@ -50,7 +50,7 @@ export default function Elevator({
 
     rigidRef.current.setNextKinematicTranslation({ x, y: nextY, z });
   });
-
+//#region Handlers
   const handleEnter = () => {
     setActive(true);
     setGoingDown(false);
@@ -62,20 +62,22 @@ export default function Elevator({
     }
   };
 
-const handleExit = () => {
-  setActive(false);
+  const handleExit = () => {
+    setActive(false);
 
-  // Timer abbrechen, falls schon einer läuft
-  if (waitTimeout.current) {
-    clearTimeout(waitTimeout.current);
-    waitTimeout.current = null;
-  }
+    // Timer abbrechen, falls schon einer läuft
+    if (waitTimeout.current) {
+      clearTimeout(waitTimeout.current);
+      waitTimeout.current = null;
+    }
 
-  // Immer runterfahren, egal ob oben oder unterwegs
-  waitTimeout.current = setTimeout(() => {
-    setGoingDown(true);
-  }, 3000); // 3 Sekunden warten
-};
+    // Immer runterfahren, egal ob oben oder unterwegs
+    waitTimeout.current = setTimeout(() => {
+      setGoingDown(true);
+    }, 3000); // 3 Sekunden warten
+  };
+
+  //#endregion
   // Cleanup beim Unmount
   useEffect(() => {
     return () => {
@@ -83,6 +85,7 @@ const handleExit = () => {
     };
   }, []);
 
+  //#region return
   return (
     <RigidBody
       ref={rigidRef}

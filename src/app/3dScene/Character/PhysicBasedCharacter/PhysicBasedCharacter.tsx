@@ -7,10 +7,10 @@ import {
 } from '@react-three/rapier';
 import { useRef, useEffect, useState } from 'react';
 import { MathUtils, Vector3, Group } from 'three';
-import { Character } from './Character';
 import { MOVE_SPEED, ROTATION_SPEED, RUN_SPEED } from '@/utils/constants';
 import { CHARACTER_STATE } from '@/utils/enums';
 import { useControls } from 'leva';
+import { CharacterRenderer } from './CharacterRenderer';
 
 const JUMP_STRENGTH = 6; // Passe ggf. an
 
@@ -177,7 +177,7 @@ export const PhysicBasedCharacter = () => {
         <group ref={cameraTarget} position-z={1.5} />
         <group ref={cameraPosition} position-y={2} position-z={-4} />
         <group rotation-y={Math.PI}>
-          <Character
+          <CharacterRenderer
             ref={character}
             scale={1}
             position-y={-1}

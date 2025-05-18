@@ -1,4 +1,4 @@
-// Einfache AABB-Kollisionsfunktion
+// Einfache AABB-Kollisionsfunktion für non physic engine based collision detection
 
 import { Vector3 } from 'three';
 import { CUBE_POSITIONS, CUBE_SIZE,CHARACTER_SIZE } from './constants';

@@ -34,9 +34,9 @@ const Subtitle = styled.p`
 export default function HomePage() {
   return (
     <Container>
-      <Title>Willkommen zu deinem Projekt!</Title>
+      <Title>Willkommen!</Title>
       <Subtitle>
-        Wähle eine Komponente aus, um fortzufahren:
+        Wähle mit der Sidebar eine Komponente aus, um fortzufahren:
       </Subtitle>
     </Container>
   );
