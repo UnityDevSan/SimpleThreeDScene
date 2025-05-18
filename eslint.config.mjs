@@ -1,25 +1,44 @@
-import js from "@eslint/js";
-import globals from "globals";
-import tseslint from "typescript-eslint";
-import pluginReact from "eslint-plugin-react";
-import prettier from "eslint-config-prettier";
-import pluginPrettier from "eslint-plugin-prettier";
-import { defineConfig } from "eslint/config";
+import pluginNext from '@next/eslint-plugin-next';
+import tseslint from 'typescript-eslint';
 
-export default defineConfig([
+export default [
   {
-    files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
-    plugins: { js, prettier: pluginPrettier },
-    extends: ["js/recommended", "plugin:prettier/recommended"],
+    name: 'ESLint Config - nextjs',
+    files: ['src/**/*.{mjs,cjs,ts,jsx,tsx}'], // Nur dein Quellcode!
+    ignores: [
+      '**/node_modules/**',
+      '**/.next/**',
+      '**/dist/**',
+      '**/build/**',
+      '**/out/**',
+      '**/coverage/**',
+      '**/*.d.ts'
+    ],
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true,
+        },
+        project: './tsconfig.json',
+      },
+    },
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
+    plugins: {
+      '@next/next': pluginNext,
+      '@typescript-eslint': tseslint.plugin,
+    },
     rules: {
-      "prettier/prettier": "error" // Zeigt Prettier-Fehler in ESLint an
-    }
+      ...pluginNext.configs.recommended.rules,
+      ...pluginNext.configs['core-web-vitals'].rules,
+      ...tseslint.configs.recommended.rules,
+      '@typescript-eslint/no-explicit-any': 'error',
+    },
   },
-  {
-    files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
-    languageOptions: { globals: globals.browser }
-  },
-  tseslint.configs.recommended,
-  pluginReact.configs.flat.recommended,
-  prettier // Deaktiviert ESLint-Regeln, die mit Prettier kollidieren
-]);
+];

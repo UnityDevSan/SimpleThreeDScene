@@ -30,6 +30,8 @@ Ein interaktives 3D-Scene-Projekt auf Basis von [Next.js](https://nextjs.org), [
 | next-intl             | Internationalisierung, Locale-Handling             |
 | styled-components     | CSS-in-JS, dynamische Styles, SSR                  |
 | Leva                  | UI-Controls für Debugging und Parameter            |
+| Prisma & ZenStack     | Datenbank, Migrations, Backend-Logik               |
+| Faker                 | Generierung von Beispiel- und Seed-Daten           |
 
 ---
 
@@ -53,9 +55,9 @@ pnpm dev
 npm run dev
 # oder
 yarn dev
-
 ```
-### 3. **(Bei bedarf) Docker starten und .env anpassen**
+
+### 3. **(Bei Bedarf) Docker starten und .env anpassen**
 ```bash
 docker compose up -d
 ```
@@ -63,6 +65,53 @@ docker compose up -d
 Öffne [http://localhost:3000](http://localhost:3000) im Browser.
 
 ---
+
+### 4. **Prisma & ZenStack**
+
+Es wird **Prisma** und **ZenStack** für das Datenbank- und Backend-Management genutzt.
+
+- **Prisma Migrate:**  
+Bearbeite **niemals direkt das Prisma-Modell** (`prisma/schema.prisma`) – dieses wird automatisch von ZenStack generiert.  
+Wenn du das ZenStack-Modell geändert hast, führe zuerst das Script aus, um das Prisma-Schema zu generieren:
+
+```bash
+pnpm schema
+```
+
+Danach kannst du eine Migration anlegen:
+
+```bash
+pnpm prisma migrate dev
+```
+oder
+```bash
+npx prisma migrate dev
+```
+
+- **ZenStack:**  
+  ZenStack erweitert Prisma um Policies und deklarative Backend-Logik.  
+  Nach Änderungen am Modell ggf. auch ZenStack generieren:
+  ```bash
+  pnpm zenstack generate
+  ```
+
+- **Seed-Datenbank:**  
+  Um Beispieldaten einzuspielen, nutze:
+  ```bash
+  pnpm prisma db seed
+  ```
+
+---
+
+### 5. **Code-Qualität: ESLint & Prettier**
+
+Es wird **ESLint** und **Prettier** für einheitliches Linting und automatisches Code-Formatting genutzt.  
+Bitte stelle sicher, dass dein Editor ESLint und Prettier aktiviert hat, damit alle denselben Style und Intellisense nutzen.
+ ```bash
+  pnpm lint 
+  ```
+---
+
 ## Warum Next.js und nicht Vite?
 
 Ich habe mich für **Next.js** entschieden, weil es im Gegensatz zu Vite folgende Vorteile für dieses Projekt bietet:
@@ -113,6 +162,9 @@ src/
     ui/
       DarkModeSwitch.tsx
       app-sidebar.tsx
+prisma/
+  schema.prisma                 # Prisma Datenbankmodell
+
 ```
 
 ---
@@ -133,6 +185,8 @@ src/
 - [next-intl Doku](https://next-intl.dev/docs/getting-started/app-router)
 - [Zustand](https://zustand-demo.pmnd.rs/)
 - [styled-components](https://styled-components.com/docs/advanced#nextjs)
+- [Prisma](https://www.prisma.io/docs/)
+- [ZenStack](https://zenstack.dev/)
 
 ---
 TODOs:
@@ -149,6 +203,7 @@ TODOs:
 - Prisma für Character Erfolg Speicherung
 - Auth  
 - NextConfig ausbauen
+
 ---
 ## Lizenz
 
