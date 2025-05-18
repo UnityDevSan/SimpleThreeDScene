@@ -69,10 +69,10 @@ export const PhysicBasedCharacter = () => {
         let mx = mouse.x;
         let my = mouse.y;
         if (touchStart.current) {
-          mx = -touchDelta.current.x * 2;
+          mx = touchDelta.current.x * 2;
           my = touchDelta.current.y * 2;
         }
-        if (Math.abs(mx) > 0.1) movement.x = mx;
+        if (Math.abs(mx) > 0.1) movement.x = -mx;
         movement.z = my + 0.4;
         if (Math.abs(movement.x) > 0.5 || Math.abs(movement.z) > 0.5) {
           speed = RUN_SPEED;
@@ -144,7 +144,7 @@ export const PhysicBasedCharacter = () => {
   });
 
   return (
-    <RigidBody colliders={false} lockRotations ref={rb} position={[0, 2, 0]} linearDamping={3}>
+    <RigidBody name="player" colliders={false} lockRotations ref={rb} position={[0, 2, 0]} linearDamping={3}>
       <group ref={container}>
         <group ref={cameraTarget} position-z={1.5} />
         <group ref={cameraPosition} position-y={2} position-z={-4} />

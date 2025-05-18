@@ -51,31 +51,31 @@ export default function Elevator({
     rigidRef.current.setNextKinematicTranslation({ x, y: nextY, z });
   });
 //#region Handlers
-  const handleEnter = () => {
-    setActive(true);
-    setGoingDown(false);
+const handleEnter = (event: any) => {
+  // Prüfe, ob das andere Objekt der Player ist
+  if (event.other.rigidBodyObject?.name !== 'player') return;
+  setActive(true);
+  setGoingDown(false);
 
-    // falls Timer aktiv ist, abbrechen
-    if (waitTimeout.current) {
-      clearTimeout(waitTimeout.current);
-      waitTimeout.current = null;
-    }
-  };
+  if (waitTimeout.current) {
+    clearTimeout(waitTimeout.current);
+    waitTimeout.current = null;
+  }
+};
 
-  const handleExit = () => {
-    setActive(false);
+const handleExit = (event: any) => {
+  if (event.other.rigidBodyObject?.name !== 'player') return;
+  setActive(false);
 
-    // Timer abbrechen, falls schon einer läuft
-    if (waitTimeout.current) {
-      clearTimeout(waitTimeout.current);
-      waitTimeout.current = null;
-    }
+  if (waitTimeout.current) {
+    clearTimeout(waitTimeout.current);
+    waitTimeout.current = null;
+  }
 
-    // Immer runterfahren, egal ob oben oder unterwegs
-    waitTimeout.current = setTimeout(() => {
-      setGoingDown(true);
-    }, 3000); // 3 Sekunden warten
-  };
+  waitTimeout.current = setTimeout(() => {
+    setGoingDown(true);
+  }, 3000);
+};
 
   //#endregion
   // Cleanup beim Unmount
