@@ -1,40 +1,155 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SimpleThreeDScene
 
-## Getting Started
+Ein interaktives 3D-Scene-Projekt auf Basis von [Next.js](https://nextjs.org), [React Three Fiber](https://docs.pmnd.rs/react-three-fiber), [three.js](https://threejs.org/), [next-intl](https://next-intl.dev/), [styled-components](https://styled-components.com/) und [Zustand](https://zustand-demo.pmnd.rs/).
 
-First, run the development server:
+---
 
+## Features
+
+- **3D-Rendering:** Mit React Three Fiber und three.js für performante, deklarative 3D-Szenen.
+- **Physik:** Integration von [@react-three/rapier](https://github.com/pmndrs/react-three-rapier) für Physik-basierte Interaktionen.
+- **Animierte Charaktere:** GLTF-Modelle mit Animationen, steuerbar per Tastatur und Maus.
+- **State Management:** Globales State-Handling (z.B. Character-Store) mit Zustand.
+- **Internationalisierung:** Mehrsprachigkeit via next-intl, Locale-Switch im UI.
+- **Dark Mode:** Umschaltbar per Button.
+- **Responsive UI:** Eigener Hook für Mobile-Detection (`useIsMobile`) (wip).
+- **Styled Components:** Für modulare, dynamische Styles mit SSR-Unterstützung.
+- **Modulare Architektur:** Klare Trennung von Komponenten, Hooks und Providern.
+
+---
+
+## Technologien & Zweck
+
+| Technologie           | Zweck                                               |
+|-----------------------|----------------------------------------------------|
+| Next.js               | App-Router, SSR, Routing, Deployment               |
+| React Three Fiber     | 3D-Rendering, Integration von three.js             |
+| three.js              | Low-Level 3D-Engine                                |
+| @react-three/rapier   | Physik-Engine für 3D-Objekte                       |
+| Zustand               | Globales State-Management (z.B. Keyboard-Store)    |
+| next-intl             | Internationalisierung, Locale-Handling             |
+| styled-components     | CSS-in-JS, dynamische Styles, SSR                  |
+| Leva                  | UI-Controls für Debugging und Parameter            |
+
+---
+
+## Initialisierung & Entwicklung
+
+### 1. **Node_Modules installieren**
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
+# oder
+npm install
+# oder
+yarn install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. **Entwicklungsserver starten**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm dev
+# oder
+npm run dev
+# oder
+yarn dev
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+### 3. **(Bei bedarf) Docker starten und .env anpassen**
+```bash
+docker compose up -d
+```
 
-## Learn More
+Öffne [http://localhost:3000](http://localhost:3000) im Browser.
 
-To learn more about Next.js, take a look at the following resources:
+---
+## Warum Next.js und nicht Vite?
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Ich habe mich für **Next.js** entschieden, weil es im Gegensatz zu Vite folgende Vorteile für dieses Projekt bietet:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Server Side Rendering (SSR) & Static Site Generation (SSG):**  
+  Next.js ermöglicht echtes SSR und SSG out-of-the-box, was für SEO, Performance und Internationalisierung (next-intl) entscheidend ist.
+- **App Router & File-based Routing:**  
+  Die neue App-Router-Architektur von Next.js erlaubt eine klare Trennung von Server- und Client-Komponenten und ein sehr flexibles Routing.
+- **Einfache Integration von SSR-fähigen Libraries:**  
+  Features wie styled-components (SSR), next-intl (SSR), und dynamisches Laden von Übersetzungen funktionieren in Next.js nahtlos.
+- **Deployment & Hosting:**  
+  Next.js ist optimal für Deployment auf Vercel und anderen Plattformen vorbereitet.
+- **Ökosystem & Community:**  
+  Viele moderne React-Libraries (z.B. next-intl, next-auth) sind speziell für Next.js optimiert.
 
-## Deploy on Vercel
+Vite ist ein großartiges Tool für reine Client-Apps, aber für ein SSR-/SSG-/i18n-/SEO-orientiertes 3D-Projekt ist Next.js die robustere Wahl.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Projektstruktur (Auszug)
 
+```
+src/
+  app/
+    layout.tsx                # Root-Layout (SSR, Provider)
+    AppProviders.tsx          # Bündelt globale Context-Provider (Client)
+    3dScene/
+      Character/
+        PhysicBasedCharacter/
+          PhysicBasedCharacter.tsx
+          CharacterRenderer.tsx
+        AnimationBasedCharacter/
+          PhysicBasedCharacter.tsx
+      Animations/
+        hooks/
+          useCharacterAnimation.tsx
+      Controls/
+        Hooks/
+          useKeyBoardStore.ts
+      Environment/
+      Levels/
+    hooks/
+      use-mobile.ts             # Hook für Mobile-Detection
+  components/
+    layout/
+      Header.tsx
+      Footer.tsx
+    ui/
+      DarkModeSwitch.tsx
+      app-sidebar.tsx
+```
 
-https://github.com/mrdoob/three.js/blob/dev/examples/models/gltf
+---
+
+## Wichtige Hinweise
+
+- **3D-Modelle:**  
+  - GLTF-Modelle liegen im Verzeichnis `/public/models/`.
+  - Beispiel-Modelle: [three.js GLTF Examples](https://github.com/mrdoob/three.js/blob/dev/examples/models/gltf)
+  - Überprüfe dein Modell: [GLTF Viewer](https://gltf-viewer.donmccurdy.com/)
+
+---
+
+## Weiterführende Links
+
+- [React Three Fiber](https://docs.pmnd.rs/react-three-fiber)
+- [three.js GLTF Examples](https://github.com/mrdoob/three.js/blob/dev/examples/models/gltf)
+- [next-intl Doku](https://next-intl.dev/docs/getting-started/app-router)
+- [Zustand](https://zustand-demo.pmnd.rs/)
+- [styled-components](https://styled-components.com/docs/advanced#nextjs)
+
+---
+TODOs:
+
+- Localication hinzufügen.
+- Mobile-Optimierung und Touch-Steuerung verbessern.
+- Weitere Beispiel-Charaktere und Animationen integrieren.
+- Kamera- und Lichtsteuerung erweitern.
+- Performance-Optimierungen (z.B. Suspense, Lazy Loading).
+- Unit- und Integrationstests ergänzen.
+- Dokumentation für Komponenten und Hooks erweitern.
+- Deployment- , Hosting- Pipelines hinzufügen.
+- Husky für git commands ausbauen
+- Prisma für Character Erfolg Speicherung
+- Auth  
+- NextConfig ausbauen
+---
+## Lizenz
+
+MIT
