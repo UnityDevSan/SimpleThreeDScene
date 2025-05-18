@@ -1,6 +1,6 @@
 # SimpleThreeDScene
 
-Ein interaktives 3D-Scene-Projekt auf Basis von [Next.js](https://nextjs.org), [React Three Fiber](https://docs.pmnd.rs/react-three-fiber), [three.js](https://threejs.org/), [next-intl](https://next-intl.dev/), [styled-components](https://styled-components.com/) und [Zustand](https://zustand-demo.pmnd.rs/).
+Ein interaktives 3D-Scene-Projekt auf Basis von [Next.js](https://nextjs.org), [Rapier](https://github.com/pmndrs/react-three-rapier), [React Three Fiber](https://docs.pmnd.rs/react-three-fiber), [three.js](https://threejs.org/), [next-intl](https://next-intl.dev/), [styled-components](https://styled-components.com/) und [Zustand](https://zustand-demo.pmnd.rs/).
 
 ---
 ## Anmerkungen
